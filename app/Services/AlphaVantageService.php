@@ -37,7 +37,7 @@ class AlphaVantageService
                 $cotacoes[] = [
                     'ticker' => $data['Global Quote']['01. symbol'] ?? $ticker,
                     'preco'  => $data['Global Quote']['05. price'] ?? null,
-                    'moeda'  => 'USD'
+                    'moeda'  => 'R$'
                 ];
             }
         }
