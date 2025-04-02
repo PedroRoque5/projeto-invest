@@ -2,16 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Services\AlphaVantageService;
+use App\Http\Controllers\AlphaVantageController;
+use App\Http\Controllers\BrapiController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/teste',  function () {
-    return view('teste');
-});
+Route::get('/teste', [AlphaVantageController::class, 'teste'])->name('teste');
 
-Route::get('/todas-cotacoes', function () {
-    $service = new AlphaVantageService();
-    return response()->json($service->getTodasCotacoes());
-});
+Route::get('/cotacoes', [BrapiController::class, 'getCotacoes']);

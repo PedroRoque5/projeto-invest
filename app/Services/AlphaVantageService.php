@@ -13,35 +13,28 @@ class AlphaVantageService
         $this->apiKey = env('ALPHA_VANTAGE_KEY');
     }
 
-    public function getTodasCotacoes()
+    public function getCotacao($ticker)
     {
-        // Lista de algumas ações da B3
-        $tickers = [
-            "PETR4.SA", "VALE3.SA", "ITUB4.SA", "BBDC4.SA", "ABEV3.SA",
-            "WEGE3.SA", "MGLU3.SA", "BBAS3.SA", "B3SA3.SA", "RENT3.SA"
-        ];
+        $url = "https://www.alphavantage.co/query";
 
-        $cotacoes = [];
+        $response = Http::get($url, [
+            'function' => 'GLOBAL_QUOTE',
+            'symbol'   => $ticker,
+            'apikey'   => $this->apiKey
+        ]);
 
-        foreach ($tickers as $ticker) {
-            $url = "https://www.alphavantage.co/query";
-            $response = Http::get($url, [
-                'function' => 'GLOBAL_QUOTE',
-                'symbol'   => $ticker,
-                'apikey'   => $this->apiKey
-            ]);
+        $data = $response->json();
 
-            $data = $response->json();
-
-            if (!$response->failed() && !empty($data['Global Quote'])) {
-                $cotacoes[] = [
-                    'ticker' => $data['Global Quote']['01. symbol'] ?? $ticker,
-                    'preco'  => $data['Global Quote']['05. price'] ?? null,
-                    'moeda'  => 'R$'
-                ];
-            }
+        // DEBUG: Verifica a resposta da API
+        if (!isset($data['Global Quote'])) {
+            return ['error' => 'Não foi possível obter a cotação.', 'debug' => $data];
         }
 
-        return $cotacoes;
+        return [
+            'ticker' => $data['Global Quote']['01. symbol'] ?? $ticker,
+            'preco'  => $data['Global Quote']['05. price'] ?? null,
+            'moeda'  => 'USD'
+        ];
     }
 }
+
