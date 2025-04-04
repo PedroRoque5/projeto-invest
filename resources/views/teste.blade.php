@@ -3,7 +3,7 @@
 use App\Helpers\FinanceHelpers;
 
 echo "<h2>Teste: Calculo do juros compostos</h2>";
-echo FinanceHelpers::calcularJurosCompostos(1000, 14, 5);
+echo FinanceHelpers::calcularJurosCompostos(1000, 14, 10);
 
 ?>
 
