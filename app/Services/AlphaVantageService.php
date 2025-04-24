@@ -32,9 +32,12 @@ class AlphaVantageService
 
         return [
             'ticker' => $data['Global Quote']['01. symbol'] ?? $ticker,
-            'preco'  => $data['Global Quote']['05. price'] ?? null,
+            'preco'  => isset($data['Global Quote']['05. price']) 
+                ? number_format((float)$data['Global Quote']['05. price'], 2, ',', '') 
+                : null,
             'moeda'  => 'USD'
         ];
+        
     }
 }
 

@@ -2,9 +2,6 @@
 
 use App\Helpers\FinanceHelpers;
 
-echo "<h2>Teste: Calculo do juros compostos</h2>";
-echo FinanceHelpers::calcularJurosCompostos(1000, 14, 10);
-
 ?>
 
 <!DOCTYPE html>
@@ -49,6 +46,37 @@ echo FinanceHelpers::calcularJurosCompostos(1000, 14, 10);
                 </table>
             @endif
         @endif
+
+        <hr>
+        
+<h2>Calculadora de Juros Compostos</h2>
+
+<form method="GET" action="{{ route('teste') }}">
+    <input type="hidden" name="form" value="juros">
+    <label>Capital Inicial (R$):</label>
+    <input type="number" name="capital" step="0.01" required><br><br>
+
+    <label>Taxa de Juros (% ao mês):</label>
+    <input type="number" name="taxa" step="0.01" required><br><br>
+
+    <label>Tempo (meses):</label>
+    <input type="number" name="tempo" required><br><br>
+
+    <button type="submit">Calcular</button>
+</form>
+
+@if(request('form') === 'juros' && request()->has(['capital', 'taxa', 'tempo']))
+    @php
+        $capital = request('capital');
+        $taxa = request('taxa');
+        $tempo = request('tempo');
+        $montante = App\Helpers\FinanceHelpers::calcularJurosCompostos($capital, $taxa, $tempo);
+    @endphp
+
+    <h3>Resultado:</h3>
+    <p>Montante final: <strong>R$ {{ number_format($montante, 2, ',', '.') }}</strong></p>
+@endif
+
     </div>
 </body>
 </html>
