@@ -1,0 +1,40 @@
+.site{
+    background-color: #1E1D1D!important;
+    color: #f5f5f5;
+
+}
+
+ .container { max-width: 600px; margin: auto; text-align: center;  }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #1E1D1D}
+
+h2{
+    color: #BE9C52;
+    text-shadow: #000 2px 2px 2px;
+}
+.busca{
+    background-color: #0095ff;
+    color: #f5f5f5;
+    border: none;
+    border-radius: 4px;
+}
+.busca:hover{
+    background-color: #09578f;
+    transform: scale(1.1);
+    box-shadow: 0 4px 5px black;
+
+}
+
+.calcular{
+    background-color: #57f52f;
+    color: #f5f5f5;
+    border: none;
+    border-radius: 4px;
+
+}
+.calcular:hover{
+    background-color: #70a51b;
+    transform: scale(1.1);
+    box-shadow: 0 4px 5px black;
+}

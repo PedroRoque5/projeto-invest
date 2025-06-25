@@ -10,22 +10,19 @@ use App\Helpers\FinanceHelpers;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teste API Alpha Vantage</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        .container { max-width: 600px; margin: auto; text-align: center; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
-        th { background-color: #f4f4f4; }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/teste.css') }}">
 </head>
-<body>
+<body class="site">
+      <div class="logo">
+        <img src="{{ asset('images/Smartfy_invest_60x60.png') }}">
+        </div>
     <div class="container">
         <h2>Teste da API Alpha Vantage</h2>
 
         <form method="GET" action="{{ route('teste') }}">
             <label for="ticker">Digite o código da ação:</label>
             <input type="text" id="ticker" name="ticker" required placeholder="Ex: AAPL">
-            <button type="submit">Buscar</button>
+            <button class="busca" type="submit">Buscar</button>
         </form>
 
         @if(isset($cotacao))
@@ -62,7 +59,7 @@ use App\Helpers\FinanceHelpers;
     <label>Tempo (meses):</label>
     <input type="number" name="tempo" required><br><br>
 
-    <button type="submit">Calcular</button>
+    <button class="calcular" type="submit">Calcular</button>
 </form>
 
 @if(request('form') === 'juros' && request()->has(['capital', 'taxa', 'tempo']))

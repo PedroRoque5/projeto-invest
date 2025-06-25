@@ -21,7 +21,7 @@
     </div>
     <div class="paginalogin">
         <h1 class="login">LOGIN</h1>
-        <form action="">
+        <form action="{{ route('home') }}" method="GET">
             <label class="login">E-mail</label><br>
             <input class="login"type="email" placeholder="E-mail"><br>
             <label class="login">Senha</label><br>
@@ -30,7 +30,7 @@
         </form>
     </div>
     <div class="Cadastre">
-        <button id="cadastre" type="submit">Cadastre-se</button>
+        <a href="{{ route('welcome') }}"><button id="cadastre" type="submit">Cadastre-se</button></a>
     </div>
     <div class="google">
     <img class="google-login" src="{{ asset('images/google-icon.png') }}">
