@@ -16,4 +16,8 @@ Route::get('/login', function () {
     return view('login');
 })->name('login');
 
+Route::get('/perfil', function () {
+    return view('perfil');
+})->name('perfil');
+
 Route::get('/teste', [AlphaVantageController::class, 'teste'])->name('teste');
