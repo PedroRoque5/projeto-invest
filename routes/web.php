@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlphaVantageController;
 use App\Services\AlphaVantageService;
+use App\Http\Controllers\GraficController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -21,3 +22,6 @@ Route::get('/perfil', function () {
 })->name('perfil');
 
 Route::get('/teste', [AlphaVantageController::class, 'teste'])->name('teste');
+
+
+Route::get('/grafico', [GraficController::class, 'show']) -> name('grafico');
