@@ -17,43 +17,31 @@
     </header>
 
     <section class="ranking section">
-        <h3 class="section-title">🏆 Ranking Smartfy (B3 + EUA)</h3>
+          <h1 class="section-title">🏆 Ranking Smartfy</h1>
 
-        @if(!empty($ranking))
-            <div class="table-responsive">
-                <table class="ranking-table">
-                    <thead>
-                        <tr>
-                            <th>Pos</th>
-                            <th>Símbolo</th>
-                            <th>Últ. Preço</th>
-                            <th>Variação</th>
-                            <th>%</th>
-                            <th>Atualizado</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($ranking as $i => $q)
-                            @php
-                                $pct = floatval(str_replace('%','',$q['percentual'] ?? '0'));
-                                $isUp = $pct >= 0;
-                            @endphp
-                            <tr class="{{ $isUp ? 'up' : 'down' }}">
-                                <td>{{ $i + 1 }}</td>
-                                <td><strong>{{ $q['simbolo'] }}</strong></td>
-                                <td>R$ {{ number_format($q['preco'], 2, ',', '.') }}</td>
-                                <td>{{ $q['variacao'] }}</td>
-                                <td>{{ $q['percentual'] }}</td>
-                                <td>{{ $q['atualizado_em'] }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+        @if(count($dados) > 0)
+        <table class="ranking-table mt-4">
+            <thead>
+                <tr>
+                    <th>Ação</th>
+                    <th>Preço</th>
+                    <th>Variação</th>
+                    <th>%</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($dados as $acao)
+                <tr class="{{ $acao['percentual'] >= 0 ? 'up' : 'down' }}">
+                    <td>{{ $acao['acao'] }}</td>
+                    <td>R$ {{ number_format($acao['preco'], 2, ',', '.') }}</td>
+                    <td>{{ $acao['variacao'] >= 0 ? '+' : '' }}{{ number_format($acao['variacao'], 2, ',', '.') }}</td>
+                    <td>{{ $acao['percentual'] >= 0 ? '+' : '' }}{{ number_format($acao['percentual'], 2, ',', '.') }}%</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
         @else
-            <p class="text-center text-muted mt-4">
-                Nenhum dado disponível no momento. Aguarde atualização automática.
-            </p>
+        <p class="text-center text-danger mt-5">Nenhum dado encontrado.</p>
         @endif
     </section>
 
