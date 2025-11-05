@@ -39,5 +39,76 @@ class AlphaVantageService
         ];
         
     }
+
+    /**
+     * Retorna o Overview da empresa (market cap, lucro, etc.)
+     */
+    public function getOverview(string $ticker): array
+    {
+        $url = "https://www.alphavantage.co/query";
+
+        $response = Http::get($url, [
+            'function' => 'OVERVIEW',
+            'symbol'   => $ticker,
+            'apikey'   => $this->apiKey
+        ]);
+
+        $data = $response->json();
+
+        if (!is_array($data) || empty($data) || isset($data['Note'])) {
+            return ['error' => 'Não foi possível obter o overview.', 'debug' => $data];
+        }
+
+        return $data;
+    }
+
+    /**
+     * Retorna a série mensal ajustada para calcular crescimento anual
+     */
+    public function getMonthlyAdjusted(string $ticker): array
+    {
+        $url = "https://www.alphavantage.co/query";
+
+        $response = Http::get($url, [
+            'function' => 'TIME_SERIES_MONTHLY_ADJUSTED',
+            'symbol'   => $ticker,
+            'apikey'   => $this->apiKey
+        ]);
+
+        $data = $response->json();
+
+        if (!isset($data['Monthly Adjusted Time Series'])) {
+            return ['error' => 'Não foi possível obter a série mensal.', 'debug' => $data];
+        }
+
+        return $data['Monthly Adjusted Time Series'];
+    }
+
+    /**
+     * Calcula crescimento em 12 meses a partir da série mensal ajustada
+     */
+    public function calculateAnnualGrowthPercent(array $monthlySeries): ?float
+    {
+        if (isset($monthlySeries['error'])) {
+            return null;
+        }
+
+        // Ordena por data desc
+        $dates = array_keys($monthlySeries);
+        rsort($dates);
+
+        if (count($dates) < 13) {
+            return null;
+        }
+
+        $latest = (float)($monthlySeries[$dates[0]]['5. adjusted close'] ?? 0);
+        $yearAgo = (float)($monthlySeries[$dates[12]]['5. adjusted close'] ?? 0);
+
+        if ($latest <= 0 || $yearAgo <= 0) {
+            return null;
+        }
+
+        return (($latest / $yearAgo) - 1) * 100.0;
+    }
 }
 

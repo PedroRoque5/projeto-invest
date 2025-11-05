@@ -2,8 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BolsaController;
-use App\Services\AlphaVantageService;
+// imports removidos: BolsaController inexistente e serviço não utilizado
 
 
 Route::get('/teste-api', function () {
