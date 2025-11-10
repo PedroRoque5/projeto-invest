@@ -32,9 +32,6 @@
     <div class="Cadastre">
         <a href="{{ route('welcome') }}"><button id="cadastre" type="submit">Cadastre-se</button></a>
     </div>
-    <div class="google">
-    <img class="google-login" src="{{ asset('images/google-icon.png') }}">
-    </div>
     <footer>
     <div class="rodape">
     </div>
