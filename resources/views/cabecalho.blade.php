@@ -1,46 +1,43 @@
 <header class="cabecalho">
-  <nav class="navbar navbar-expand-lg navbar-light shadow-sm">
-    <div class="container">
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#105F00;">
+    <div class="container-fluid">
 
       <!-- LOGO -->
-      <div class="logo">
-        <img src="{{ asset('images/Smartfy_invest_60x60.png') }}">
-      </div>
+      <a class="navbar-brand" href="#">
+        <img src="{{ asset('images/Smartfy_invest_60x60.png') }}" height="50">
+      </a>
 
-      <!-- BOTÃO TOGGLER (necessário para dropdowns e mobile) -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegação">
+      <!-- BOTÃO TOGGLER MOBILE -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal">
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <!-- CONTEÚDO DO MENU -->
-      <div class="collapse navbar-collapse" id="navbarNav">
+      <!-- MENU COLAPSÁVEL -->
+      <div class="collapse navbar-collapse" id="menuPrincipal">
 
-        <!-- Menu à esquerda -->
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <!-- MENU ESQUERDA -->
+        <ul class="navbar-nav me-auto">
+
+          <!-- DROPDOWN AÇÕES -->
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="acoesMenu" role="button" data-bs-toggle="dropdown">
               Ações
             </a>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" aria-labelledby="acoesMenu">
               <li><a class="dropdown-item" href="#">AAPL34 - Apple</a></li>
               <li><a class="dropdown-item" href="#">MSFT34 - Microsoft</a></li>
               <li><a class="dropdown-item" href="#">AMZO34 - Amazon</a></li>
               <li><a class="dropdown-item" href="#">GOGL34 - Google</a></li>
-              <li><a class="dropdown-item" href="#">META34 - Meta (Facebook)</a></li>
-              <li><a class="dropdown-item" href="#">TSLA34 - Tesla</a></li>
-              <li><a class="dropdown-item" href="#">NFLX34 - Netflix</a></li>
-              <li><a class="dropdown-item" href="#">DISB34 - Disney</a></li>
-              <li><a class="dropdown-item" href="#">NVDL34 - Nvidia</a></li>
-              <li><a class="dropdown-item" href="#">BABA34 - Alibaba</a></li>
+              <li><a class="dropdown-item" href="#">META34 - Meta</a></li>
             </ul>
           </li>
 
+          <!-- DROPDOWN FIIS -->
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="fiisMenu" role="button" data-bs-toggle="dropdown">
               FIIs
             </a>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" aria-labelledby="fiisMenu">
               <li><a class="dropdown-item" href="#">Tijolo</a></li>
               <li><a class="dropdown-item" href="#">Papel</a></li>
             </ul>
@@ -50,36 +47,42 @@
             <a class="nav-link" href="#">Tesouro Direto</a>
           </li>
 
+          <!-- DROPDOWN RENDA FIXA -->
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="rendaFixaMenu" role="button" data-bs-toggle="dropdown">
               Renda Fixa
             </a>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" aria-labelledby="rendaFixaMenu">
               <li><a class="dropdown-item" href="#">CDB</a></li>
               <li><a class="dropdown-item" href="#">LCI/LCA</a></li>
             </ul>
           </li>
+
         </ul>
 
-        <!-- Pesquisa centralizada -->
-        <div class="mx-auto">
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Search">
-            <button class="btn btn-outline-primary" type="submit">
-              <i class="fas fa-search"></i>
-            </button>
-          </form>
-        </div>
+        <!-- PESQUISA CENTRAL -->
+        <form class="d-flex mx-auto" style="max-width: 300px;">
+          <input class="form-control me-2" type="search" placeholder="Buscar">
+          <button class="btn btn-outline-light" type="submit">
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
 
-        <!-- Carteira no canto direito -->
-        <div class="ms-auto">
-          <a class="nav-link" href="{{ route('carteira') }}"><i class="fas fa-wallet"></i> Carteira</a>
-        </div>
+        <!-- CARTEIRA -->
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('carteira') }}">
+              <i class="fas fa-wallet"></i> Carteira
+            </a>
+          </li>
+        </ul>
 
       </div>
+
     </div>
   </nav>
 </header>
 
-<!-- Scripts do Bootstrap -->
+<!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>

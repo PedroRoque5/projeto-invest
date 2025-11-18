@@ -70,15 +70,29 @@ h1.login {
     border: none;
     box-shadow: none;
 }
-.Cadastre{
-    align-items: center; 
-    justify-content: center; 
-    position: absolute;
-    top: 85%;
-    left: 75%; 
-    transform: translate(-50%, -50%); 
-    padding: 20px;
+.Cadastre {
+    position: relative; /* remove absolute */
+    top: auto;
+    left: auto;
+    transform: none;
+    margin-top: 10px; /* espaço abaixo do botão Entrar */
+    text-align: center;
+    padding: 0;
 }
+
+button#cadastre {
+    color: #BE9C52;
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button#cadastre:hover {
+    color: #694e15;
+    transform: scale(1.1);
+}
+
 .google{
     align-items: center; 
     justify-content: center; 
@@ -170,4 +184,7 @@ button.login:hover {
     bottom: 0;
     left: 0;
     z-index: 1000;
+}
+p{
+    color: white;
 }

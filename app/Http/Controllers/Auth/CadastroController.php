@@ -4,15 +4,16 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Suport\Facades\DB;
-use Illuminate\Suport\Facades\Hash;
-use Illuminate\Suport\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+
 
 class CadastroController extends Controller
 {
     public function index(){
         
-        return view("wlcome");
+        return view("welcome");
     }
 
     public function salvar(Request $request){

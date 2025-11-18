@@ -3,32 +3,46 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AlphaVantageController;
 use App\Http\Controllers\HomeController;
-use App\Services\AlphaVantageService;
 use App\Http\Controllers\GraficController;
+use App\Http\Controllers\Auth\CadastroController;
+use App\Http\Controllers\Auth\LoginController;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('welcome');
+/*
+|--------------------------------------------------------------------------
+| Rotas públicas
+|--------------------------------------------------------------------------
+*/
 
-Route::get('/perfil', function () {
-    return view('perfil');
-})->name('perfil');
+// Página inicial (welcome / cadastro)
+Route::get('/', [CadastroController::class, 'index'])->name('welcome');
+Route::post('/cadastro/salvar', [CadastroController::class, 'salvar'])->name('cadastro.salvar');
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+// Login
+Route::get('/login', [LoginController::class, 'showForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
 
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
+/*
+|--------------------------------------------------------------------------
+| Rotas protegidas (necessitam de autenticação)
+|--------------------------------------------------------------------------
+*/
 
-Route::get('/perfil', function () {
-    return view('perfil');
-})->name('perfil');
+Route::middleware('auth')->group(function () {
 
-Route::get('/carteira', function () {
-    return view('carteira');
-})->name('carteira');
+    // Home após login
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::get('/teste', [AlphaVantageController::class, 'teste'])->name('teste');
+    // Perfil
+    Route::get('/perfil', function () {
+        return view('perfil');
+    })->name('perfil');
 
+    // Carteira
+    Route::get('/carteira', function () {
+        return view('carteira');
+    })->name('carteira');
 
-Route::get('/grafico', [GraficController::class, 'show']) -> name('grafico');
+    // Rotas adicionais
+    Route::get('/teste', [AlphaVantageController::class, 'teste'])->name('teste');
+    Route::get('/grafico', [GraficController::class, 'show'])->name('grafico');
+});
