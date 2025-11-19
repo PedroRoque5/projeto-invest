@@ -46,3 +46,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/teste', [AlphaVantageController::class, 'teste'])->name('teste');
     Route::get('/grafico', [GraficController::class, 'show'])->name('grafico');
 });
+
+// Logout
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');

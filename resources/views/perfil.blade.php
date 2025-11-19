@@ -215,7 +215,7 @@
                 <div class="actions">
                     <button class="btn-outline" id="btnEditar" type="button">Editar respostas</button>
                     <button class="btn" id="btnNovo" type="button">Nova avaliação</button>
-                   <form action="{{ route('login') }}" method="GET">  <label id="button"><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <button class="cadastre" type="submit">Login</button></form>
+                   <form action="{{ route('home') }}" method="GET">  <label id="button"><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <button class="cadastre" type="submit">Ir para a Home</button></form>
                 </div>
             </div>
         </div> <!-- FECHA CARD -->

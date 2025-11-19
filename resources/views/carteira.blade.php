@@ -208,59 +208,49 @@
 
       const lucroPercent = patrimonio ? (lucroTotal / (patrimonio - lucroTotal)) * 100 : 0;
 
-      document.getElementById("patrimonioTotal").textContent = 'R$ ' + patrimonio.toLocaleString('pt-BR', {
-        minimumFractionDigits: 2
-      });
-      document.getElementById("lucroTotal").textContent = `${lucroTotal >= 0 ? '+' : ''}R$ ${lucroTotal.toLocaleString('pt-BR',{minimumFractionDigits:2})} (${lucroPercent.toFixed(2)}%)`;
+      document.getElementById("patrimonioTotal").textContent = 'R$ ' + patrimonio.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+      document.getElementById("lucroTotal").textContent = `${lucroTotal >= 0 ? '+' : ''}R$ ${lucroTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} (${lucroPercent.toFixed(2)}%)`;
 
       atualizarGraficos();
     }
 
     const chartEvolucao = new Chart(document.getElementById('chartEvolucao'), {
       type: 'line',
-      data: {
-        labels: [],
-        datasets: [{
-          label: 'Evolução',
-          data: [],
-          borderColor: '#00c853',
-          borderWidth: 2,
-          tension: 0.3
-        }]
-      },
-      options: {
-        plugins: { legend: { display: false } },
-        scales: { y: { beginAtZero: true } }
-      }
+      data: { labels: [], datasets: [{ label: 'Evolução', data: [], borderColor: '#00c853', borderWidth: 2, tension: 0.3 }] },
+      options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
     });
 
     const chartAtivos = new Chart(document.getElementById('chartAtivos'), {
       type: 'doughnut',
-      data: {
-        labels: [],
-        datasets: [{
-          data: [],
-          backgroundColor: ['#871981', '#ff8a05', '#155aee', '#dd1717']
-        }]
-      },
-      options: {
-        plugins: {
-          legend: { position: 'bottom', labels: { color: '#fff' } }
-        }
-      }
+      data: { labels: [], datasets: [{ data: [], backgroundColor: [] }] },
+      options: { plugins: { legend: { position: 'bottom', labels: { color: '#fff' } } } }
     });
 
-    function atualizarGraficos() {
+    async function atualizarGraficos() {
       const linhas = document.querySelectorAll("#tabelaAtivos tr");
-      const labels = [], valores = [];
+      const labels = [], valores = [], cores = [];
+
       linhas.forEach(l => {
-        labels.push(l.children[0].textContent);
+        const nome = l.children[0].textContent;
+        const tipo = l.children[1].textContent.trim();
         const qtd = parseFloat(l.children[2].textContent);
-        const val = parseFloat(l.children[4].dataset.valor);
-        valores.push(qtd * val);
+        const valor = parseFloat(l.children[4].dataset.valor);
+
+        labels.push(nome);
+        valores.push(qtd * valor);
+
+        switch (tipo) {
+          case "Ação": cores.push("#871981"); break;         // roxo
+          case "FII": cores.push("#ff8a05"); break;          // laranja
+          case "Renda Fixa": cores.push("#155aee"); break;   // azul
+          case "Tesouro Direto": cores.push("#dd1717"); break; // vermelho
+          default: cores.push("#ffffff");
+        }
       });
+
       chartAtivos.data.labels = labels;
       chartAtivos.data.datasets[0].data = valores;
+      chartAtivos.data.datasets[0].backgroundColor = cores;
       chartAtivos.update();
 
       chartEvolucao.data.labels = labels;
@@ -268,12 +258,14 @@
       chartEvolucao.update();
     }
 
-    document.getElementById("formAdicionarAtivo").addEventListener("submit", async function(e) {
+    document.getElementById("formAdicionarAtivo").addEventListener("submit", async function (e) {
       e.preventDefault();
+
       const nome = ativoNome.value.trim();
       const tipo = ativoTipo.value;
       const valorInvestido = parseFloat(ativoValorInvestido.value);
       const precoCompraInformado = parseFloat(ativoValor.value);
+
       let precoAtual = precoCompraInformado;
 
       try {
@@ -281,39 +273,40 @@
         const data = await resp.json();
         const quote = data["Global Quote"];
         if (quote && quote["05. price"]) precoAtual = parseFloat(quote["05. price"]);
-
-        if (!nome.endsWith("3") && !nome.endsWith("4") && !nome.endsWith("11")) {
-          const dolar = await obterCotacaoDolar();
-          precoAtual *= dolar;
-        }
-
-      } catch (e) {
-        console.error("Erro ao buscar cotação:", e);
+      } catch (err) {
+        console.error("Erro ao buscar cotação:", err);
       }
 
-      // calcula preço médio unitário a partir do total investido
-      const quantidade = valorInvestido / precoCompraInformado;
-      const precoUnitario = valorInvestido / quantidade;
+      let precoCompraBRL = precoCompraInformado;
+      let precoAtualBRL = precoAtual;
 
-      const lucro = (precoAtual - precoUnitario) * quantidade;
-      const lucroPercent = ((precoAtual - precoUnitario) / precoUnitario) * 100;
+      // se internacional, converte para BRL
+      if (!nome.endsWith("3") && !nome.endsWith("4") && !nome.endsWith("11")) {
+        const dolar = await obterCotacaoDolar();
+        precoCompraBRL *= dolar;
+        precoAtualBRL *= dolar;
+      }
+
+      const quantidade = valorInvestido / precoCompraBRL;
+      const lucro = quantidade * (precoAtualBRL - precoCompraBRL);
+      const lucroPercent = (lucro / valorInvestido) * 100;
 
       const linha = document.createElement("tr");
       linha.innerHTML = `
         <td>${nome}</td>
         <td>${tipo}</td>
-        <td>${quantidade.toFixed(2)}</td>
-        <td data-valor="${precoUnitario}">R$ ${precoUnitario.toLocaleString('pt-BR',{minimumFractionDigits:2})}</td>
-        <td data-valor="${precoAtual}">R$ ${precoAtual.toLocaleString('pt-BR',{minimumFractionDigits:2})}</td>
+        <td>${quantidade.toFixed(4)}</td>
+        <td data-valor="${precoCompraBRL}">R$ ${precoCompraBRL.toLocaleString('pt-BR',{minimumFractionDigits:2})}</td>
+        <td data-valor="${precoAtualBRL}">R$ ${precoAtualBRL.toLocaleString('pt-BR',{minimumFractionDigits:2})}</td>
         <td class="${lucro >= 0 ? 'text-success' : 'text-danger'}">
           ${lucro >= 0 ? '+' : ''}R$ ${lucro.toLocaleString('pt-BR',{minimumFractionDigits:2})} (${lucroPercent.toFixed(2)}%)
         </td>
-        <td><button class="btn btn-danger btn-sm btn-remover">🗑️</button></td>`;
+        <td><button class="btn btn-danger btn-sm btn-remover">🗑️</button></td>
+      `;
       document.getElementById("tabelaAtivos").appendChild(linha);
 
       e.target.reset();
 
-      // Fecha o modal e corrige fundo + scroll
       const modalEl = document.getElementById("modalAdicionarAtivo");
       const modalInstance = bootstrap.Modal.getInstance(modalEl);
       modalInstance.hide();
@@ -328,13 +321,16 @@
       atualizarCards();
     });
 
-    document.getElementById("tabelaAtivos").addEventListener("click", function(e) {
+    document.getElementById("tabelaAtivos").addEventListener("click", function (e) {
       if (e.target.classList.contains("btn-remover")) {
         e.target.closest("tr").remove();
         atualizarCards();
       }
     });
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- No final do body, apenas uma vez -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
 </body>
 </html>

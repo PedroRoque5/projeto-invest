@@ -75,10 +75,27 @@
               <i class="fas fa-wallet"></i> Carteira
             </a>
           </li>
+
+          <!-- PERFIL USUÁRIO -->
+          <li class="nav-item dropdown ms-3">
+            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="perfilMenu" role="button" data-bs-toggle="dropdown">
+              <i class="fa fa-user"></i>&nbsp;
+              <strong>{{ Auth::user()->nome ?? 'Usuário' }}</strong>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilMenu">
+              <li><a class="dropdown-item" href="{{ route('perfil') }}">Perfil</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <form action="{{ route('logout') }}" method="POST">
+                  @csrf
+                  <button type="submit" class="dropdown-item">Sair</button>
+                </form>
+              </li>
+            </ul>
+          </li>
         </ul>
 
       </div>
-
     </div>
   </nav>
 </header>

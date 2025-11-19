@@ -39,7 +39,8 @@ class CadastroController extends Controller
         ]);
 
         // mensagem de sucesso
-        return redirect()->back()->with('sucesso', 'Usuário cadastrado com sucesso!');
+      return redirect()->route('perfil')->with('success', 'Cadastro realizado com sucesso!');
+
     
     }
 }

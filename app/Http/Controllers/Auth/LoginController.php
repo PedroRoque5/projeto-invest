@@ -31,4 +31,12 @@ class LoginController extends Controller
             'email' => 'Email ou senha incorretos.',
         ])->withInput();
     }
+    public function logout(Request $request)
+    {
+        Auth::logout(); // encerra a sessão
+        $request->session()->invalidate(); // invalida sessão
+        $request->session()->regenerateToken(); // novo token CSRF
+
+        return redirect('/login'); // redireciona para login
+    }
 }
