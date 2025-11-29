@@ -27,7 +27,7 @@
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
-    background-color: #105F00;
+    background-color: transparent;
     margin-left: 300px;
     top: -10px;
 }
@@ -79,6 +79,7 @@
 .nav-link {
     color: white !important;
     margin-left: 20px;
+    background-color: transparent !important;
 }
 
 .dropdown-item {

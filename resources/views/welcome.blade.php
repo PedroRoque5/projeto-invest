@@ -25,10 +25,7 @@
         {{-- Botão Entrar com mesmo estilo dos botões do form --}}
         <button type="button" id="btnEntrar" class="cadastre">Entrar</button>
 
-        <label id="esqueci">
-            <input type="checkbox" name="esqueci-senha">
-            Esqueci minha senha
-        </label>
+
     </div>
 
     {{-- Mensagens de erro --}}

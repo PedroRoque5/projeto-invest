@@ -1,6 +1,6 @@
 /* smartfy.css */
 :root {
-    --bg: #1e1e1e;
+    --bg: #000;
     /* slate-900 */
     --card: #111827;
     /* gray-900 */
@@ -25,7 +25,7 @@
 body {
     font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu;
     margin: 0;
-    background: linear-gradient(180deg, #0b1222, var(--bg));
+    background: linear-gradient(180deg, #000, var(--bg));
     color: var(--text);
 }
 
@@ -46,13 +46,13 @@ body {
 h1 {
     margin: 0 0 8px;
     font-size: 28px;
-    color: #105f00 !important;
+    color: #c9a227 !important;
 }
 
 h2 {
     margin: 24px 0 8px;
     font-size: 20px;
-    color: #105f00 !important;
+    color: #c9a227 !important;
 }
 
 p.muted {
@@ -85,7 +85,7 @@ label {
     display: block;
     font-weight: 600;
     margin-bottom: 6px;
-    color: #105f00 !important;
+    color: #c9a227 !important;
 }
 
 input[type="text"],
@@ -137,7 +137,7 @@ button {
 
 .btn {
     background: var(--pri);
-    color: #105f00 !important;
+    color: #c9a227 !important;
 }
 
 .btn:hover {

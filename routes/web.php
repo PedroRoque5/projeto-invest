@@ -6,6 +6,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\GraficController;
 use App\Http\Controllers\Auth\CadastroController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,3 +51,26 @@ Route::middleware('auth')->group(function () {
 
 // Logout
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+
+// Form para pedir reset
+Route::get('password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+
+// Enviar link por e-mail
+Route::post('password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+
+// Form para reset com token
+Route::get('password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+
+// Atualizar a senha
+Route::post('password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
+
+Route::get('/tesouro', function () {
+    return view('tesouro');
+})->name('tesouro');
+Route::get('/cdb', function () {
+    return view('cdb');
+})->name('cdb');
+Route::get('/lci_lca', function () {
+    return view('lci_lca');
+})->name('lci_lca');

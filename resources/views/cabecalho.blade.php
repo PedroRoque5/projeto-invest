@@ -3,7 +3,7 @@
     <div class="container-fluid">
 
       <!-- LOGO -->
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="{{ route('home') }}">
         <img src="{{ asset('images/Smartfy_invest_60x60.png') }}" height="50">
       </a>
 
@@ -18,82 +18,74 @@
         <!-- MENU ESQUERDA -->
         <ul class="navbar-nav me-auto">
 
-          <!-- DROPDOWN AÇÕES -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="acoesMenu" role="button" data-bs-toggle="dropdown">
-              Ações
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="acoesMenu">
-              <li><a class="dropdown-item" href="#">AAPL34 - Apple</a></li>
-              <li><a class="dropdown-item" href="#">MSFT34 - Microsoft</a></li>
-              <li><a class="dropdown-item" href="#">AMZO34 - Amazon</a></li>
-              <li><a class="dropdown-item" href="#">GOGL34 - Google</a></li>
-              <li><a class="dropdown-item" href="#">META34 - Meta</a></li>
-            </ul>
-          </li>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('grafico') }}">
+                Ações
+              </a>
+            </li>
 
-          <!-- DROPDOWN FIIS -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="fiisMenu" role="button" data-bs-toggle="dropdown">
-              FIIs
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="fiisMenu">
-              <li><a class="dropdown-item" href="#">Tijolo</a></li>
-              <li><a class="dropdown-item" href="#">Papel</a></li>
-            </ul>
-          </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="#">Tesouro Direto</a>
-          </li>
+            <!-- DROPDOWN FIIS -->
+            <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('grafico') }}">
+                FIIs
+              </a>
+            </li>
 
-          <!-- DROPDOWN RENDA FIXA -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="rendaFixaMenu" role="button" data-bs-toggle="dropdown">
-              Renda Fixa
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="rendaFixaMenu">
-              <li><a class="dropdown-item" href="#">CDB</a></li>
-              <li><a class="dropdown-item" href="#">LCI/LCA</a></li>
-            </ul>
-          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('tesouro') }}">Tesouro Direto</a>
+            </li>
 
-        </ul>
+            <!-- DROPDOWN RENDA FIXA -->
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="rendaFixaMenu" role="button" data-bs-toggle="dropdown">
+                Renda Fixa
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="rendaFixaMenu">
+                <li><a class="dropdown-item" href="{{ route('cdb') }}">CDB</a></li>
+                <li><a class="dropdown-item" href="{{ route('lci_lca') }}">LCI/LCA</a></li>
+              </ul>
+            </li>
 
-        <!-- PESQUISA CENTRAL -->
-        <form class="d-flex mx-auto" style="max-width: 300px;">
-          <input class="form-control me-2" type="search" placeholder="Buscar">
-          <button class="btn btn-outline-light" type="submit">
-            <i class="fas fa-search"></i>
-          </button>
+          </ul>
+
+          <!-- PESQUISA CENTRAL -->
+         
+        <form class="d-flex mx-auto" style="max-width: 300px;"method="GET" action="{{ route('home') }}">
+            <input class="form-control me-2" type="text" id="ticker" name="ticker" required placeholder="Ex: AAPL">
+            <button class="btn btn-outline-light" type="submit"><i class= "fas fa-search"></i></button>
         </form>
 
-        <!-- CARTEIRA -->
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('carteira') }}">
-              <i class="fas fa-wallet"></i> Carteira
-            </a>
-          </li>
+          <!-- CARTEIRA -->
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('carteira') }}">
+                <i class="fas fa-wallet"></i> Carteira
+              </a>
+            </li>
 
-          <!-- PERFIL USUÁRIO -->
-          <li class="nav-item dropdown ms-3">
-            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="perfilMenu" role="button" data-bs-toggle="dropdown">
-              <i class="fa fa-user"></i>&nbsp;
-              <strong>{{ Auth::user()->nome ?? 'Usuário' }}</strong>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilMenu">
-              <li><a class="dropdown-item" href="{{ route('perfil') }}">Perfil</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li>
-                <form action="{{ route('logout') }}" method="POST">
-                  @csrf
-                  <button type="submit" class="dropdown-item">Sair</button>
-                </form>
-              </li>
-            </ul>
-          </li>
-        </ul>
+            <!-- PERFIL USUÁRIO -->
+            <li class="nav-item dropdown ms-3">
+              <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="perfilMenu" role="button" data-bs-toggle="dropdown">
+                <i class="fa fa-user"></i>&nbsp;
+                <strong>{{ Auth::user()->nome ?? 'Usuário' }}</strong>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilMenu">
+                <li><a class="dropdown-item" href="{{ route('perfil') }}">Perfil</a></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li>
+                  <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit" class="dropdown-item">Sair</button>
+                  </form>
+                </li>
+              </ul>
+            </li>
+          </ul>
 
       </div>
     </div>
